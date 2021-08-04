@@ -35,6 +35,7 @@ void imprime(Lista* l){
 	for(ListaNo* p=l->prim;p!=NULL;p=p->prox){
 		printf("Valor: %d\n", p->info);
 	}
+	printf("\n");
 }
 
 //Verifica se um elemento está na lista. Caso esteja ele retorna 1, caso não ele retorna 0
@@ -72,7 +73,31 @@ void insere_ordenado(Lista* l, int v){
 
 }
 
+void retirar_lista(Lista* l, int v){
+	ListaNo* ant = NULL;
+	ListaNo* p = l->prim;
+	while(p!=NULL && p->info != v){
+		ant = p;
+		p = p->prox;
+	}
 
+	//verifica se o elemento foi encontrado
+	if(p!=NULL){
+		if(ant==NULL){
+			//retira elemento do inicio da lista
+			l->prim = p->prox;
+		}else{
+			//retira elemento do meio da lista
+			ant->prox = p->prox;
+		}
+		free(p);
+	}
+
+}
+
+int vazia(Lista* l){
+	return (l->prim == NULL);
+}
 
 
 int main(void) {
@@ -83,11 +108,23 @@ int main(void) {
 	lista_insere(l,10);
 	lista_insere(l,15);
 
+		//Mostra os valores
+	printf("-------- Inserido ---------\n");
+	imprime(l);
+
 	//Coloca os elementos de forma ordenada
 	insere_ordenado(l, 20);
 	insere_ordenado(l, 5);
-	
+
 	//Mostra os valores
+	printf("-------- Ordenado ---------\n");
+	imprime(l);
+
+	//retira elemento da lista
+	retirar_lista(l,15);
+
+	//Mostra os valores
+	printf("-------- Retirado ---------\n");
 	imprime(l);
 
 	free(l);
